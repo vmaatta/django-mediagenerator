@@ -1,6 +1,8 @@
 Changelog
 =============================================================
 
+* Added optional ``cache_urls`` dict to ``OFFLINE_MANIFEST`` value entries to specify URLs to be added verbatim to the manifest
+
 Version 1.11
 -------------------------------------------------------------
 
