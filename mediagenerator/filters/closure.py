@@ -19,10 +19,22 @@ class Closure(Filter):
         from subprocess import Popen, PIPE
         for input in self.get_input(variation):
             try:
-                compressor = settings.CLOSURE_COMPILER_PATH
-                cmd = Popen(['java', '-jar', compressor,
+                try:
+                    compressor = settings.CLOSURE_COMPILER_PATH
+                except AttributeError:
+                    compressor = settings.CLOSURE_COMPILER_CMD
+                    pre_commands = None
+                else:
+                    pre_commands = ['java', '-jar']
+                finally:
+                    command = [compressor,
                              '--charset', 'utf-8',
-                             '--compilation_level', self.compilation_level],
+                             '--compilation_level', self.compilation_level]
+                    if pre_commands:
+                		pre_commands.reverse()
+                		for c in pre_commands:
+                			command.insert(0, c)
+                cmd = Popen(command,
                             stdin=PIPE, stdout=PIPE, stderr=PIPE,
                             universal_newlines=True)
                 output, error = cmd.communicate(smart_str(input))
@@ -32,5 +44,6 @@ class Closure(Filter):
                 raise ValueError("Failed to execute Java VM or Closure. "
                     "Please make sure that you have installed Java "
                     "and that it's in your PATH and that you've configured "
-                    "CLOSURE_COMPILER_PATH in your settings correctly.\n"
+                    "CLOSURE_COMPILER_PATH or CLOSURE_COMPILER_CMD "
+                    "in your settings correctly.\n"
                     "Error was: %s" % e)
