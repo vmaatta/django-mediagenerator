@@ -30,6 +30,11 @@ class Closure(Filter):
                     command = [compressor,
                              '--charset', 'utf-8',
                              '--compilation_level', self.compilation_level]
+                    post_commands = getattr(settings, 'CLOSURE_COMPILER_PARAMS',
+                                            None)
+                    if post_commands:
+                        for c in post_commands:
+                            command.append(c)
                     if pre_commands:
                 		pre_commands.reverse()
                 		for c in pre_commands:
