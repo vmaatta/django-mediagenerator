@@ -1,6 +1,8 @@
 Changelog
 =============================================================
 
+* Added optional ``settings`` dict to `OFFLINE_MANIFEST`` value entries to add settings verbatim to the manifest. (Mainly for "legacy" prefer_online)
+
 * Added optional ``cache_urls`` dict to ``OFFLINE_MANIFEST`` value entries to specify URLs to be added verbatim to the manifest
 
 Version 1.11

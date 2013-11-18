@@ -26,3 +26,12 @@ FALLBACK:
 {{ source }} {{ target }}
 {% endfor %}
 {% endblock %}
+{% if settings %}
+{% block settings %}
+
+SETTINGS:
+{% for setting in settings %}
+{{ setting }}
+{% endfor %}
+{% endblock %}
+{% endif %}

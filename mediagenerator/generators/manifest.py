@@ -40,13 +40,17 @@ class Manifest(Generator):
         network = get_tuple(config, 'network', ('*',))
         fallback = get_tuple(config, 'fallback')
 
+        # include settings for legacy app support
+        settings = config.get('settings', [])
+
         template = get_tuple(config, 'template') + (
             'mediagenerator/manifest/' + name,
             'mediagenerator/manifest/base.manifest'
         )
 
         content = render_to_string(template, {
-            'cache': cache, 'cache_urls': cache_urls, 'network': network, 'fallback': fallback,
+            'cache': cache, 'cache_urls': cache_urls, 'network': network,
+            'fallback': fallback, 'settings': settings,
         })
         return content, 'text/cache-manifest'
 
